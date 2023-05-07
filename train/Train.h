@@ -6,12 +6,12 @@ BluetoothSerial SerialBT;
 
 #include "GetStopping.h"
 #include "GetWheelSpeed.h"
-// #include "GetPositionID.h"
+//#include "GetPositionID.h"
 #include "GetPositionID_Photo.h"
 
 #define BUFFER_SIZE 32
 
-class Train : public GetStopping, public GetWheelSpeed, public GetPositionID_Photo
+class Train : public GetStopping, public GetWheelSpeed, public GetPositionID_Photo //public GetPositionID
 {
     public:
         int         serialSpeed;

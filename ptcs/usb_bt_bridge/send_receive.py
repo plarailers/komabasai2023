@@ -13,7 +13,7 @@ def receive(ser):
 
 if __name__ == "__main__": 
     i=0
-    port = '/dev/tty.usbserial-1440' # ポート名は環境に合わせて変更する
+    port = 'COM7' # ポート名は環境に合わせて変更する
     baudrate = 115200
     ser = serial.Serial(port, baudrate,timeout=3.0,write_timeout=3.0)
     ser.read_until(b'}')

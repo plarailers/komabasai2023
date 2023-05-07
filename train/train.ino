@@ -15,7 +15,7 @@ void setup() {
     SerialBT.begin(train.serialBTPortName);
     Serial.println("SerialBT Start!!");
 
-    // /* ledc */
+    /* ledc */
     ledcSetup(0, 700, 8);
     ledcAttachPin(train.MOTOR_INPUT_PIN, 0);
     train.moveMotor(0);
@@ -25,9 +25,13 @@ void setup() {
     train.BNO055Setup();
     Serial.println("BNO055 Setup done!!");
 
-    // /* MFRC522 */
+    /* MFRC522 */
     // train.MFRC522Setup();
     // Serial.println("MFRC522 Setup done!!");
+
+    /*PhotoReflector*/
+    train.photoRefSetup();
+    Serial.println("PhotoReflector Setup done!!");
 
 }
 
@@ -38,13 +42,14 @@ void loop(){
     train.moveMotor(motorInput);
 
     // /* 積算位置検知(IPS) */
-    float   wheelSpeed      = train.getWheelSpeed(train.MOTOR_CURRENT_PIN);
-    bool    isStopping      = train.getStopping();
-    float   wheelRotation   = train.calcWheelRotation(wheelSpeed, isStopping);
-    train.sendWheelRotation(wheelRotation);
+    // float   wheelSpeed      = train.getWheelSpeed(train.MOTOR_CURRENT_PIN);
+    // bool    isStopping      = train.getStopping();
+    // float   wheelRotation   = train.calcWheelRotation(wheelSpeed, isStopping);
+    // train.sendWheelRotation(wheelRotation);
 
     // /* 絶対位置検知(APS) */
-    int     positionID      = train.getPositionID();
+    //int     positionID      = train.getPositionID();
+    int positionID = train.getPositionID_Photo();
     if (positionID > 0) train.sendPositionID(positionID);
 
 }
