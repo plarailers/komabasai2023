@@ -21,7 +21,7 @@ if __name__ == "__main__":
     while(True):
         time.sleep(0.3)
         print("motorInput: ", end='')
-        motorInput = input()
+        motorInput = 100
         json_data=f'{{"motorInput": {motorInput}}}'
         print(json_data)
         send(json_data,ser)

@@ -3,7 +3,7 @@
 
 #include "Train.h"
 
-Train train("ESP32-Dr.");
+Train train("ESP32-E5");
 
 void setup() {
     /* Serial */

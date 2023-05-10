@@ -1,8 +1,8 @@
 #define BIT 8
-#define THRESHOLD1 160
-#define THRESHOLD2 160
-#define THRESHOLDLEAVE 720
-#define THRESHOLDTIME 300
+#define THRESHOLD1 380
+#define THRESHOLD2 300
+#define THRESHOLDLEAVE 750
+#define THRESHOLDTIME 250
 
 class GetPositionID_Photo
 {
@@ -13,8 +13,9 @@ class GetPositionID_Photo
 		int getData1[BIT], getData2[BIT];
 		void reset1();
 		void reset2();
+		void resetAll();
 		void measure1Clock2();
-		void measure2Clock1();
+		void measure2Clock1();              
     public:
 		GetPositionID_Photo();
         void photoRefSetup();
@@ -39,10 +40,7 @@ GetPositionID_Photo::GetPositionID_Photo() {
 void GetPositionID_Photo::photoRefSetup() {
 	memset(getData1, '\0', BIT);
 	memset(getData2, '\0', BIT);
-	reset1();
-	reset2();
-
-	Serial.begin(115200);
+	resetAll();
 }
 
 int GetPositionID_Photo::getPositionID_Photo() {
@@ -84,6 +82,11 @@ void GetPositionID_Photo::reset2(){
 	}
 }
 
+void GetPositionID_Photo::resetAll(){
+	reset1();
+	reset2();
+}
+
 void GetPositionID_Photo::measure1Clock2(){
 	if(bool2 != bool2_before){
 		getData1[i1] = bool1;
@@ -96,16 +99,11 @@ void GetPositionID_Photo::measure1Clock2(){
 		for(int j = 0; j < BIT; j++){
 			positionID += getData1[BIT - j - 1] * (pow(2, BIT - j - 1) + 0.5);
 		}
-		reset1();
+		resetAll();
 	}
 
-	if(val1 > THRESHOLDLEAVE){
-		reset1();
-	}
-
-	if(nowTime - time1 > THRESHOLDTIME){
-		reset1();
-	}
+	if(val1 > THRESHOLDLEAVE){resetAll();}
+	if(nowTime - time1 > THRESHOLDTIME){reset1();}
 }
 
 void GetPositionID_Photo::measure2Clock1(){
@@ -120,14 +118,9 @@ void GetPositionID_Photo::measure2Clock1(){
 		for(int j = 0; j < BIT; j++){
 			positionID += getData2[j] * (pow(2,j) + 0.5);
 		}
-		reset2();
+		resetAll();
 	}
 
-	if(val2 > THRESHOLDLEAVE){
-		reset2();
-	}
-
-	if(nowTime - time2 > THRESHOLDTIME){
-		reset2();
-	}
+	if(val2 > THRESHOLDLEAVE){resetAll();}
+	if(nowTime - time2 > THRESHOLDTIME){reset2();}
 }
